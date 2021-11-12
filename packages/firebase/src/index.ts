@@ -36,6 +36,7 @@ const opts: Options = {
     baseUrl: env("BASE_URL"),
     githubClientId: env("CLIENT_ID"),
     githubClientSecret: env("CLIENT_SECRET"),
+    githubAppName: env('APP_NAME')
   },
   locals: {
     ...apps.info,

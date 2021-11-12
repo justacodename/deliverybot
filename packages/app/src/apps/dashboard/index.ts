@@ -3,7 +3,7 @@ import { Response } from "express";
 import { Dependencies } from "@deliverybot/core";
 import { Index, Repos, InstallSettings, MySettings } from "./views";
 
-export function dashboard({ app, csrf }: Dependencies) {
+export function dashboard({ app, csrf, config }: Dependencies) {
   async function index(req: AuthedRequest, res: Response) {
     const data = await Index({
       user: req.user!,
@@ -41,8 +41,15 @@ export function dashboard({ app, csrf }: Dependencies) {
     res.render("my-settings", data);
   }
 
+  async function install(req: AuthedRequest, res: Response) {
+    const appName = config.githubAppName || 'deliverybot';
+    const url = `https://github.com/apps/${appName}/installations/new`
+    return res.redirect(url);
+  }
+
   app.get("/", csrf, authenticate, index);
   app.get("/settings", csrf, authenticate, mySettings);
+  app.get("/install", csrf, install);
   app.get("/:name", csrf, authenticate, repos);
   app.get("/settings/:name", csrf, authenticate, installSettings);
 }
