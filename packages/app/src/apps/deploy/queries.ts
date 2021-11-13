@@ -1,17 +1,22 @@
-import { request as ghRequest } from "@octokit/request";
 import { Octokit } from "@deliverybot/core";
 import {
   config as getConfig,
   EnvLockStore,
-  WatchStore,
   Targets,
   Watch,
+  WatchStore,
 } from "@deliverybot/deploybot";
+import { request as ghRequest } from "@octokit/request";
 import get from "lodash.get";
 import { Repo } from "../auth";
-import { timeAgoInWords, hash } from "../util";
+import {
+  editDeployFileUrl,
+  hash,
+  newDeployFileUrl,
+  timeAgoInWords,
+  yamlEncode,
+} from "../util";
 import { Measure, Measurements } from "./metrics";
-import { newDeployFileUrl, editDeployFileUrl, yamlEncode } from "../util";
 
 export async function gql(token: string, query: string, variables: any) {
   const resp = await ghRequest({
@@ -475,8 +480,8 @@ export async function config(
   repo: string,
   branch: string,
 ): Promise<Config> {
-  const newFileUrl = newDeployFileUrl(owner, repo);
-  const editFileUrl = editDeployFileUrl(owner, repo);
+  const newFileUrl = newDeployFileUrl(owner, repo, branch);
+  const editFileUrl = editDeployFileUrl(owner, repo, branch);
 
   const conf: Config = {
     yaml: "",

@@ -1,6 +1,6 @@
 import objectHash = require("object-hash");
-import yaml from "js-yaml";
 import { Dependencies } from "@deliverybot/core";
+import yaml from "js-yaml";
 
 export function yamlEncode(data: any) {
   try {
@@ -18,15 +18,23 @@ production:
   production_environment: true
 `;
 
-export function newDeployFileUrl(owner: string, repo: string) {
+export function newDeployFileUrl(
+  owner: string,
+  repo: string,
+  branch: string = "master",
+) {
   const encoded = encodeURIComponent(example);
   const filepath = encodeURIComponent(".github/deploy.yml");
-  return `https://github.com/${owner}/${repo}/new/master?filename=${filepath}&value=${encoded}`;
+  return `https://github.com/${owner}/${repo}/new/${branch}?filename=${filepath}&value=${encoded}`;
 }
 
-export function editDeployFileUrl(owner: string, repo: string) {
+export function editDeployFileUrl(
+  owner: string,
+  repo: string,
+  branch: string = "master",
+) {
   const filepath = ".github/deploy.yml";
-  return `https://github.com/${owner}/${repo}/edit/master/${filepath}`;
+  return `https://github.com/${owner}/${repo}/edit/${branch}/${filepath}`;
 }
 
 export function isoDate(day: Date) {
