@@ -10,7 +10,9 @@ export const app = load(services, apps, {
   webhookSecret: 'foobar',
   appSecret: 'foobar',
   privateKey: 'foobar',
-  config: {},
+  config: {
+    baseUrl: 'https://deliverybot.dev'
+  },
   locals: info,
   root: path.resolve(__dirname, ".."),
   production: false,
